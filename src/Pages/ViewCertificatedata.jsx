@@ -27,8 +27,9 @@ const ViewCertificatedata = () => {
   }, []);
 
   const filteredData = formData.filter((entry) =>
-    entry.categoryofCertificate.toLowerCase().includes(searchTerm.toLowerCase())
+    entry.categoryofCertificate && entry.categoryofCertificate.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
 
   return (
     <>

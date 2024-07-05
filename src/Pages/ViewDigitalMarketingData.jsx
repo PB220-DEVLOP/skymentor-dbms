@@ -27,8 +27,9 @@ const ViewDigitalMarketingData = () => {
   }, []);
 
   const filteredData = formData.filter((entry) =>
-    entry.businessname.toLowerCase().includes(searchTerm.toLowerCase())
+    entry.businessname && entry.businessname.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
 
   return (
     <>

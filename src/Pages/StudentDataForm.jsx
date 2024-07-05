@@ -134,7 +134,7 @@ const StudentDataForm = () => {
                         id="image"
                         onChange={handleImageUpload}
                         className="hidden"
-                        required
+                        // required
                       />
                       <label
                         htmlFor="image"
