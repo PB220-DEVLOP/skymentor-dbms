@@ -21,8 +21,9 @@ const ViewInvoiceData = () => {
   }, []);
 
   const filteredInvoices = invoices.filter((invoice) =>
-    invoice.name.toLowerCase().includes(searchTerm.toLowerCase())
+    invoice.name && invoice.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
 
   return (
     <div>

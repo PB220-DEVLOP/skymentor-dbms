@@ -26,9 +26,11 @@ const ViewData = () => {
     fetchData();
   }, []);
 
-  const filteredData = formData.filter((entry) =>
-    entry.username.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = formData.filter(
+    (entry) =>
+      entry.username && entry.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
 
   return (
     <>
