@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { Link,  } from "react-router-dom";
 import Navebar from "../Components/Navebar";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { fireDb } from "../Firebase/FirebaseConfig";
 
 const ViewData = () => {
   const [formData, setFormData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  // const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(
-          collection(fireDb, "studentDataForms")
-        );
+        const querySnapshot = await getDocs(collection(fireDb, "studentDataForms"));
         const data = [];
         querySnapshot.forEach((doc) => {
           data.push({ id: doc.id, ...doc.data() });
@@ -28,9 +28,19 @@ const ViewData = () => {
 
   const filteredData = formData.filter(
     (entry) =>
-      entry.username && entry.username.toLowerCase().includes(searchTerm.toLowerCase())
+      entry.username &&
+      entry.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(fireDb, "studentDataForms", id));
+      setFormData(formData.filter((entry) => entry.id !== id));
+      console.log("Document successfully deleted!");
+    } catch (error) {
+      console.error("Error removing document: ", error);
+    }
+  };
 
   return (
     <>
@@ -98,6 +108,12 @@ const ViewData = () => {
                     >
                       Remaining Payment
                     </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-gray-200 divide-y divide-gray-200">
@@ -136,6 +152,21 @@ const ViewData = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {entry.remainingPayment}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Link
+                          to={`/editstudent/${entry.id}`}
+                          className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(entry.id)}
+                          className="bg-red-500 text-white px-3 py-1 rounded-md"
+                        >
+                          Delete
+                        </button
+>
                       </td>
                     </tr>
                   ))}

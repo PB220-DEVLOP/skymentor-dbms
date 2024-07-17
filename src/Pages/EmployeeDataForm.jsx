@@ -28,6 +28,8 @@ const EmployeeDataForm = () => {
     identificationType: "PAN",
     identificationNumber: "",
     status: "employee",
+    post: "",
+    employmentStatus: "currentlyWorking",
   });
 
   const handleChange = (e) => {
@@ -91,6 +93,8 @@ const EmployeeDataForm = () => {
         identificationType: "PAN",
         identificationNumber: "",
         status: "employee",
+        post: "",
+        employmentStatus: "currentlyWorking",
       });
 
       // Show success message
@@ -288,6 +292,53 @@ const EmployeeDataForm = () => {
                         className="bg-gray-50 bg-opacity-70 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder={`Enter your ${formData.identificationType} Number`}
                       />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-4">
+                    <label
+                      htmlFor="post"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Post
+                    </label>
+                    <div className="mt-2">
+                      <div className="rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                        <input
+                          type="text"
+                          name="post"
+                          id="post"
+                          autoComplete="post"
+                          className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                          placeholder="Post"
+                          required
+                          value={formData.post}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-4">
+                    <label
+                      htmlFor="employmentStatus"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Employment Status
+                    </label>
+                    <div className="mt-2">
+                      <div className="rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                        <select
+                          name="employmentStatus"
+                          id="employmentStatus"
+                          value={formData.employmentStatus}
+                          onChange={handleChange}
+                          className="bg-gray-50 bg-opacity-70 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                          <option value="currentlyWorking">Currently Working</option>
+                          <option value="exEmployee">Ex-Employee</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
