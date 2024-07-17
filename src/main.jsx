@@ -38,6 +38,11 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import EditEmployeeData from "./Pages/EditPages/EditEmployeeData.jsx";
+import EditStudentData from "./Pages/EditPages/EditStudentData.jsx";
+import EditCertificateData from "./Pages/EditPages/EditCertificateData.jsx";
+import EditDigitalMarketingData from "./Pages/EditPages/EditDigitalMarketingData.jsx";
+import EditInvoicedata from "./Pages/EditPages/EditInvoicedata.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -65,6 +70,12 @@ const router = createBrowserRouter(
       <Route path="viewInvoiceData" element ={<ViewInvoiceData/>}/>
       <Route path="viewEmployeData" element ={<ViewEmployeData/>}/>
       <Route path="viewCertificatedata" element ={<ViewCertificatedata/>}/>
+      {/* Edit */}
+      <Route path="editemployee/:id" element={<EditEmployeeData />} /> {/* Define the route for editing */}
+      <Route path="editstudent/:id" element={<EditStudentData />} /> {/* Define the route for editing */}
+      <Route path="editcertificate/:id" element={<EditCertificateData/>} />
+      <Route path="editDigitalMarketingData/:id" element={<EditDigitalMarketingData/>} />
+      <Route path="editInvoice/:id" element={<EditInvoicedata/>} />
     </Route>
   )
 );

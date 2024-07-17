@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navebar from "../Components/Navebar";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { fireDb } from "../Firebase/FirebaseConfig";
 
 const ViewDigitalMarketingData = () => {
   const [formData, setFormData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,10 +28,18 @@ const ViewDigitalMarketingData = () => {
     fetchData();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(fireDb, "DigitalMarketingFormData", id));
+      setFormData(formData.filter((entry) => entry.id !== id));
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
+  };
+
   const filteredData = formData.filter((entry) =>
     entry.businessname && entry.businessname.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
 
   return (
     <>
@@ -103,6 +113,12 @@ const ViewDigitalMarketingData = () => {
                     >
                       Remaining Payment
                     </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-gray-200 divide-y divide-gray-200">
@@ -127,11 +143,24 @@ const ViewDigitalMarketingData = () => {
                         {entry.startDate}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-  {entry.startDateOption === "choose-date" ? entry.endDate.split(' ')[0] : entry.startDateOption}
-</td>
-
+                        {entry.startDateOption === "choose-date" ? entry.endDate.split(' ')[0] : entry.startDateOption}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {entry.remainingPayment}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          className="text-blue-500 hover:text-blue-700"
+                          onClick={() => navigate(`/editDigitalMarketingData/${entry.id}`)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="text-red-500 hover:text-red-700 ml-2"
+                          onClick={() => handleDelete(entry.id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

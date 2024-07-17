@@ -51,7 +51,7 @@ const InvoiceForm = () => {
         <Navebar />
         <div className="m-auto justify-center container h-[600px] w-[1000px] bg-white rounded-xl git">
           <h1 className="text-center font-serif pt-5 font-bold text-4xl">
-            Invoice Generator
+            Upload Invoice
           </h1>
           <form onSubmit={handleSubmit} className="p-8">
             <div className="mb-4">

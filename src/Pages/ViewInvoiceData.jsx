@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navebar from "../Components/Navebar";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
 const ViewInvoiceData = () => {
   const [invoices, setInvoices] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -20,10 +22,19 @@ const ViewInvoiceData = () => {
     fetchInvoices();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      const db = getFirestore();
+      await deleteDoc(doc(db, "invoices", id));
+      setInvoices(invoices.filter((invoice) => invoice.id !== id));
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
+  };
+
   const filteredInvoices = invoices.filter((invoice) =>
     invoice.name && invoice.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
 
   return (
     <div>
@@ -31,8 +42,7 @@ const ViewInvoiceData = () => {
         <Navebar />
         <div className="m-auto justify-center container h-[600px] w-[1000px] bg-white rounded-xl git px-4 ">
           <h1 className="text-center font-serif font-bold text-4xl mt-5">
-            {" "}
-            Digital Marketing Invoice{" "}
+            Digital Marketing Invoice
           </h1>
 
           <div className="flex justify-center items-center my-5">
@@ -60,6 +70,9 @@ const ViewInvoiceData = () => {
                   </th>
                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     View File
+                  </th>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -90,6 +103,20 @@ const ViewInvoiceData = () => {
                       >
                         View File
                       </a>
+                    </td>
+                    <td className="px-6 py-4 whitespace-no-wrap">
+                      <button
+                        onClick={() => navigate(`/editInvoice/${invoice.id}`)}
+                        className="text-blue-600 hover:text-blue-900 mr-4"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(invoice.id)}
+                        className="text-red-600 hover:text-red-900"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
